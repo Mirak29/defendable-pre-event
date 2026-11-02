@@ -1,0 +1,15 @@
+.git
+.env
+.env.local
+node_modules/
+dist/
+dist-qa/
+qa/reports/
+qa/lib/
+qa/scripts/
+qa/tests-definitions/
+qa/tests-data/
+*.db
+*.db-shm
+*.db-wal
+coverage

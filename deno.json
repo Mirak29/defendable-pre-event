@@ -1,0 +1,85 @@
+{
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 80,
+    "indentWidth": 2,
+    "semiColons": false,
+    "singleQuote": true,
+    "exclude": ["dist/", "dist-qa/", "metafile.json", "qa/reports/"]
+  },
+  "lock": false,
+  "workspace": ["./qa"],
+  "nodeModulesDir": "auto",
+  "lint": {
+    "rules": {
+      "exclude": ["no-import-prefix", "no-unversioned-import"]
+    },
+    "exclude": ["dist/", "dist-qa/"]
+  },
+  "test": {
+    "exclude": [
+      "qa/lib/",
+      "qa/reports/",
+      "qa/scripts/test.ts",
+      "qa/scripts/qa-setup-data.ts",
+      "qa/tests-definitions/"
+    ]
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "deno.ns",
+      "deno.unstable"
+    ]
+  },
+  "imports": {
+    "./": "./",
+    "/": "./",
+    "@01edu/api": "jsr:@01edu/api@^0.2.11",
+    "@01edu/api-client": "jsr:@01edu/api-client@^0.2.6",
+    "@01edu/db": "jsr:@01edu/db@^0.2.6",
+    "@01edu/time": "jsr:@01edu/time@^0.1.0",
+    "@01edu/types": "jsr:@01edu/types@^0.2.6",
+    "@db/sqlite": "jsr:@cd/sqlite@^0.13.1",
+    "@preact/signals": "npm:@preact/signals@^2.9.1",
+    "@twind/preact": "npm:@twind/preact@^1.0.5",
+    "preact": "npm:preact@^10.29.2",
+    "@01edu/signal-router": "jsr:@01edu/signal-router@^0.2.3",
+    "fflate": "npm:fflate@^0.8.3",
+    "unpdf": "npm:unpdf@^1.8.1"
+  },
+  "tasks": {
+    "dev:with-seed": {
+      "command": "deno task dev",
+      "dependencies": ["seed"]
+    },
+    "dev": "deno serve --env-file=.env-dev --env-file=.env -A --unstable-ffi --watch --watch-exclude='{*_,*.,}test.{js,mjs,ts,mts,jsx,tsx}' task-dev.ts & deno task test --watch api web fixtures --reporter=dot & deno task fmt --watch api web fixtures migrations *.ts & deno task lint --watch api web fixtures migrations *.ts",
+    "prod:build": "deno run --env-file -A task-prod.ts",
+    "prod:serve": "deno run --env-file -A --unstable-ffi prod-server.ts",
+    "prod": {
+      "command": "deno task prod:serve",
+      "dependencies": ["prod:build"]
+    },
+    "lint": "deno lint",
+    "check": "deno check",
+    "fmt": "deno fmt",
+    "test": "deno test --env-file=.env-test -A --no-check",
+    "all": "deno task check && deno task lint && deno task test --parallel && deno task prod:build",
+    "seed": "deno run --env-file=.env-dev -A task-db-seed.ts",
+    "qa:build": "deno run --env-file=.env-qa -A task-prod.ts",
+    "qa:serve": {
+      "command": "deno run --env-file=.env-qa -A --unstable-ffi prod-server.ts",
+      "dependencies": ["qa:build"]
+    },
+    "qa": "deno run -A qa/scripts/test.ts",
+    "qa:single": "deno test -A qa/scripts/run.ts --",
+    "qa:audit": "deno run -A qa/scripts/audit.ts",
+    "llm:check": "deno run --env-file=.env-dev --env-file=.env -A task-llm-check.ts",
+    "llm:bench": "deno run --env-file=.env-test --env-file=.env -A --unstable-ffi task-llm-bench.ts",
+    "deploy": "deno run -A task-deploy.ts"
+  }
+}

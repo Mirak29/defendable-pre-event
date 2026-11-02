@@ -1,0 +1,5 @@
+# deno fmt writes LF: check files out with LF on Windows too (core.autocrlf
+# would give CRLF, which deno fmt --check rejects)
+* text=auto eol=lf
+# hooks run by sh: keep LF line endings on Windows
+.githooks/* text eol=lf

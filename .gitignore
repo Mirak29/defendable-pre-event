@@ -1,0 +1,40 @@
+# database
+defendable.db
+defendable.db-shm
+defendable.db-wal
+
+# editor
+.vscode
+
+# Logs
+logs
+.logs
+*.log
+
+metafile.json
+
+# Coverage
+coverage
+*.lcov
+
+# Dependency directories
+node_modules/
+
+# dotenv environment variable files (secrets)
+.env
+.env.local
+
+# build output
+dist/*
+
+.DS_Store
+
+# QA (end-to-end tests)
+qa.db
+qa.db-shm
+qa.db-wal
+dist-qa/
+qa/reports/*
+!qa/reports/.gitkeep
+.env-prod
+.deploy-run
